@@ -94,7 +94,11 @@ int build_alpsc_pe_info(stepd_step_rec_t *job,
 	}
 
 	// Fill in the structure
-	alpsc_pe_info->totalPEs = job->ntasks;
+	if (job->pack_jobid != NO_VAL) {
+		alpsc_pe_info->totalPEs = job->pack_ntasks;
+	} else {
+		alpsc_pe_info->totalPEs = job->ntasks;
+	}
 	alpsc_pe_info->firstPeHere = _get_first_pe(job);
 	alpsc_pe_info->pesHere = job->node_tasks;
 	alpsc_pe_info->peDepth = job->cpus_per_task;
